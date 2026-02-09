@@ -22,8 +22,6 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('common.urls')),
     path('clubs/', include('clubs.urls')),
-
-    # May be redundant, rather use url like clubs/1/coach
     path('coaches/', include('coaches.urls')),
     path('athletes/', include('athletes.urls'))
 ]

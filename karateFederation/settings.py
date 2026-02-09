@@ -34,7 +34,10 @@ ALLOWED_HOSTS = []
 # Application definition
 
 PROJECT_APPS = [
-
+    'common',
+    'clubs',
+    'coaches',
+    'athletes'
 ]
 
 INSTALLED_APPS = [
