@@ -1,0 +1,41 @@
+{% extends 'shared/base.html' %}
+{% load static %}
+
+{% block content %}
+<section class="hero">
+    <h1>Welcome to World Karate Federation</h1>
+    <p>Empowering athletes, coaches, and clubs across the globe to reach their peak performance in the art of Karate.</p>
+</section>
+
+<section class="features">
+    <div class="feature-card">
+        <h2>Clubs</h2>
+        <p>Discover karate clubs in your area. Manage club details and track their progress within the federation.</p>
+        <a href="{% url 'clubs:dashboard' %}" class="btn-outline">View Clubs</a>
+    </div>
+
+    <div class="feature-card">
+        <h2>Coaches</h2>
+        <p>Expert guidance from certified instructors. View coach profiles and their certifications.</p>
+        <a href="{% url 'coaches:dashboard' %}" class="btn-outline">Find Coaches</a>
+    </div>
+
+    <div class="feature-card">
+        <h2>Athletes</h2>
+        <p>Track performances, rankings, and achievements of athletes competing at all levels.</p>
+        <a href="{% url 'athletes:dashboard' %}" class="btn-outline">Browse Athletes</a>
+    </div>
+</section>
+
+<section class="about-section">
+    <div class="about-content">
+        <h2>Our Purpose</h2>
+        <p>
+            The World Karate Federation platform is designed to streamline the management of karate organizations. 
+            Our mission is to provide a central hub for clubs to register, coaches to showcase their expertise, 
+            and athletes to track their journey in the world of martial arts. We believe in transparency, 
+            excellence, and the continuous growth of the karate community.
+        </p>
+    </div>
+</section>
+{% endblock %}

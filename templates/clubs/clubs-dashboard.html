@@ -1,0 +1,60 @@
+{% extends 'shared/base.html' %}
+{% load static %}
+
+{% block content %}
+<link rel="stylesheet" href="{% static 'css/clubs.css' %}">
+
+<div class="dashboard-container">
+    <div class="dashboard-header">
+        <h1>Clubs Directory</h1>
+        <a href="{% url 'clubs:add' %}" class="btn-add">
+            <span>+</span> Add New Club
+        </a>
+    </div>
+
+    <div class="clubs-grid">
+        {% for club in clubs %}
+        <div class="club-card">
+            <a href="{% url 'clubs:details' pk=club.pk %}" class="club-link">
+                {% if club.photo %}
+                    <div class="club-image" style="background-image: url('{{ club.photo.url }}');"></div>
+                {% else %}
+                    <div class="club-image placeholder">
+                        <span>{{ club.name|slice:":1" }}</span>
+                    </div>
+                {% endif %}
+            </a>
+            
+            <div class="club-details">
+                <a href="{% url 'clubs:details' pk=club.pk %}" style="text-decoration: none;">
+                    <h2 class="club-name">{{ club.name }}</h2>
+                </a>
+                <ul class="club-meta">
+                    <li>
+                        <strong>Location:</strong> {{ club.city }}, {{ club.country }}
+                    </li>
+                    <li>
+                        <strong>Founder:</strong> {{ club.founder_name }}
+                    </li>
+                    <li>
+                        <strong>Joined:</strong> {{ club.created_at|date:"M d, Y" }}
+                    </li>
+                </ul>
+
+                <div class="club-actions">
+                    <a href="{% url 'clubs:edit' pk=club.pk %}" class="btn-action btn-edit">Edit</a>
+                    <a href="{% url 'clubs:delete' pk=club.pk %}" class="btn-action btn-delete">Delete</a>
+                </div>
+            </div>
+        </div>
+        {% empty %}
+        <div class="empty-state">
+            <h3>No clubs found</h3>
+            <p>Get started by adding the first karate club to the federation.</p>
+            <br>
+            <a href="{% url 'clubs:add' %}" class="btn-add">Add Club</a>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

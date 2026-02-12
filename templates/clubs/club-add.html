@@ -1,0 +1,39 @@
+{% extends 'shared/base.html' %}
+{% load static %}
+
+{% block content %}
+<link rel="stylesheet" href="{% static 'css/clubs.css' %}">
+
+<div class="form-container">
+    <div class="form-header">
+        <h2>Add New Club</h2>
+        <p>Register a new karate club to the federation.</p>
+    </div>
+
+    <form method="post" enctype="multipart/form-data" class="styled-form">
+        {% csrf_token %}
+        
+        {% for field in form %}
+        <div class="form-group">
+            <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+            {{ field }}
+            {% if field.help_text %}
+                <small class="help-text">{{ field.help_text }}</small>
+            {% endif %}
+            {% if field.errors %}
+                <div class="field-errors">
+                    {% for error in field.errors %}
+                        <span class="error">{{ error }}</span>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        </div>
+        {% endfor %}
+
+        <div class="form-actions">
+            <button type="submit" class="btn-submit">Add Club</button>
+            <a href="{% url 'clubs:dashboard' %}" class="btn-cancel">Cancel</a>
+        </div>
+    </form>
+</div>
+{% endblock %}

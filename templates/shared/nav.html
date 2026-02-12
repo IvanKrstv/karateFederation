@@ -1,0 +1,53 @@
+{% load static %}
+
+<nav class="navbar">
+    <div class="container">
+        <div class="logo">
+            <a href="{% url 'common:home' %}">
+                <img width="50px" src="{% static 'images/World_Karate_Federation.png' %}" alt="img1">
+            </a>
+
+            <a class="home" href="{% url 'common:home' %}">
+                <i>World Karate Federation</i>
+            </a>
+        </div>
+
+        <div class="nav-search">
+            <form action="#" method="GET">
+                <input type="text" name="q" placeholder="Search clubs, athletes..." aria-label="Search">
+                <button type="submit">Search</button>
+            </form>
+        </div>
+
+        <div class="nav-links">
+            <ul class="nav-group">
+                <li class="nav-item dropdown">
+                    <a href="{% url 'clubs:dashboard' %}">
+                        <i>Clubs</i>
+                    </a>
+                    <div class="dropdown-content">
+                        <a href="{% url 'clubs:add' %}">Add Club</a>
+                    </div>
+                </li>
+
+                <li class="nav-item dropdown">
+                    <a href="{% url 'coaches:dashboard' %}">
+                        <i>Coaches</i>
+                    </a>
+                    <div class="dropdown-content">
+                        <a href="{% url 'coaches:add' %}">Add Coach</a>
+                    </div>
+                </li>
+
+                <li class="nav-item dropdown">
+                    <a href="{% url 'athletes:dashboard' %}">
+                        <i>Athletes</i>
+                    </a>
+                    <div class="dropdown-content">
+                        <a href="{% url 'athletes:add' %}">Add Athlete</a>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
