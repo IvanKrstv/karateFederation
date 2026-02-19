@@ -1,18 +1,39 @@
 from django.http import HttpRequest, HttpResponse
 from django.shortcuts import render
+from django.urls import reverse_lazy
+from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
+
+from athletes.forms import AthleteAddForm, AthleteEditForm, AthleteDeleteForm
+from athletes.models import Athlete
+
 
 # Create your views here.
-def athletes_dashboard(request: HttpRequest) -> HttpResponse:
-    return render(request, 'athletes/athletes-dashboard.html')
+class AthletesBaseViewMixin:
+    model = Athlete
+    success_url = reverse_lazy('athletes:dashboard')
 
 
-def athlete_add(request: HttpRequest) -> HttpResponse:
-    return render(request, 'athletes/athlete-add.html')
+class AthletesDashboardView(ListView):
+    model = Athlete
+    template_name = 'athletes/athletes-dashboard.html'
+    context_object_name = 'athletes'
 
 
-def athlete_edit(request: HttpRequest) -> HttpResponse:
-    return render(request, 'athletes/athlete-edit.html')
+class AthleteDetailsView(DetailView):
+    model = Athlete
+    template_name = 'athletes/athlete-details.html'
 
 
-def athlete_delete(request: HttpRequest) -> HttpResponse:
-    return render(request, 'athletes/athlete-delete.html')
+class AthleteAddView(AthletesBaseViewMixin, CreateView):
+    form_class = AthleteAddForm
+    template_name = 'athletes/athlete-add.html'
+
+
+class AthleteEditView(AthletesBaseViewMixin, UpdateView):
+    form_class = AthleteEditForm
+    template_name = 'athletes/athlete-edit.html'
+
+
+class AthleteDeleteView(AthletesBaseViewMixin, DeleteView):
+    form_class = AthleteDeleteForm
+    template_name = 'athletes/athlete-delete.html'

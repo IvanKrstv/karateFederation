@@ -1,0 +1,63 @@
+{% extends 'shared/base.html' %}
+{% load static %}
+
+{% block content %}
+<link rel="stylesheet" href="{% static 'css/athletes.css' %}">
+
+<div class="dashboard-container">
+    <div class="dashboard-header">
+        <h1>Athletes Directory</h1>
+        <a href="{% url 'athletes:add' %}" class="btn-add">
+            <span>+</span> Add New Athlete
+        </a>
+    </div>
+
+    <div class="clubs-grid">
+        {% for athlete in athletes %}
+        <div class="club-card">
+            <a href="{% url 'athletes:details' pk=athlete.pk %}" class="club-link">
+                {% if athlete.photo %}
+                    <div class="club-image" style="background-image: url('{{ athlete.photo.url }}');"></div>
+                {% else %}
+                    <div class="club-image placeholder">
+                        <span>{{ athlete.name|slice:":1" }}</span>
+                    </div>
+                {% endif %}
+            </a>
+            
+            <div class="club-details">
+                <a href="{% url 'athletes:details' pk=athlete.pk %}" style="text-decoration: none;">
+                    <h2 class="club-name">{{ athlete.name }}</h2>
+                </a>
+                <ul class="club-meta">
+                    <li>
+                        <strong>Club:</strong> {{ athlete.club.name }}
+                    </li>
+                    <li>
+                        <strong>Belt:</strong> {{ athlete.get_belt_display }}
+                    </li>
+                    <li>
+                        <strong>Gender:</strong> {{ athlete.get_gender_display }}
+                    </li>
+                    <li>
+                        <strong>Birth Date:</strong> {{ athlete.birth_date|date:"M d, Y" }}
+                    </li>
+                </ul>
+
+                <div class="club-actions">
+                    <a href="{% url 'athletes:edit' pk=athlete.pk %}" class="btn-action btn-edit">Edit</a>
+                    <a href="{% url 'athletes:delete' pk=athlete.pk %}" class="btn-action btn-delete">Delete</a>
+                </div>
+            </div>
+        </div>
+        {% empty %}
+        <div class="empty-state">
+            <h3>No athletes found</h3>
+            <p>Get started by adding the first karate athlete to the federation.</p>
+            <br>
+            <a href="{% url 'athletes:add' %}" class="btn-add">Add Athlete</a>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

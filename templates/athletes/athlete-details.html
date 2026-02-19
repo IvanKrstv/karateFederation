@@ -1,0 +1,81 @@
+{% extends 'shared/base.html' %}
+{% load static %}
+
+{% block content %}
+<link rel="stylesheet" href="{% static 'css/athletes.css' %}">
+
+<div class="dashboard-container">
+    <div class="club-profile-header">
+        <div class="profile-cover">
+            <div class="profile-info">
+                {% if athlete.photo %}
+                    <div class="profile-logo" style="background-image: url('{{ athlete.photo.url }}');"></div>
+                {% else %}
+                    <div class="profile-logo placeholder">
+                        <span>{{ athlete.name|slice:":1" }}</span>
+                    </div>
+                {% endif %}
+
+                <div class="profile-text">
+                    <h1>{{ athlete.name }}</h1>
+                    <div class="location">
+                        <span>🏢</span> {{ athlete.club.name }}
+                    </div>
+                </div>
+
+                <div class="profile-actions">
+                    <a href="{% url 'athletes:edit' pk=athlete.pk %}" class="btn-action btn-edit" style="padding: 10px 20px; border-radius: 5px; display: inline-block; width: auto;">Edit Athlete</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="profile-content">
+            <div class="main-info">
+                <div class="content-section">
+                    <h3>Athlete Details</h3>
+                    <div class="info-grid">
+                        <div class="info-item">
+                            <label>Gender</label>
+                            <span>{{ athlete.get_gender_display }}</span>
+                        </div>
+                        <div class="info-item">
+                            <label>Birth Date</label>
+                            <span>{{ athlete.birth_date|date:"F d, Y" }}</span>
+                        </div>
+                        <div class="info-item">
+                            <label>Belt Level</label>
+                            <span>{{ athlete.get_belt_display }}</span>
+                        </div>
+                        <div class="info-item">
+                            <label>Member Since</label>
+                            <span>{{ athlete.created_at|date:"F d, Y" }}</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="content-section">
+                    <h3>Teams</h3>
+                    {% if athlete.teams.all %}
+                        <ul style="list-style: none; padding: 0;">
+                            {% for team in athlete.teams.all %}
+                                <li style="background: #f1f1f1; padding: 10px; margin-bottom: 5px; border-radius: 5px;">{{ team.name }}</li>
+                            {% endfor %}
+                        </ul>
+                    {% else %}
+                        <p style="color: #7f8c8d;">This athlete is not currently in any teams.</p>
+                    {% endif %}
+                </div>
+            </div>
+
+            <div class="sidebar">
+                <div class="content-section">
+                    <h3>Quick Actions</h3>
+                    <div style="display: flex; flex-direction: column; gap: 10px;">
+                        <a href="{% url 'athletes:delete' pk=athlete.pk %}" class="btn-action btn-delete">Delete Athlete</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

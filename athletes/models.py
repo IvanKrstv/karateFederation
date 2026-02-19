@@ -10,15 +10,20 @@ class Athlete(PersonInfoMixin, CommonInfoMixin):
         YELLOW = 'Yellow', 'Yellow'
         ORANGE = 'Orange', 'Orange'
         GREEN = 'Green', 'Green'
-        BLUE = 'Blue', 'Blue',
-        BROWN = 'Brown', 'Brown',
+        BLUE = 'Blue', 'Blue'
+        BROWN = 'Brown', 'Brown'
         BLACK = 'Black', 'Black'
 
     belt = models.CharField(
         max_length=15,
-        choices=BeltChoices
+        choices=BeltChoices.choices
     )
 
+    club = models.ForeignKey(
+        to='clubs.Club',
+        on_delete=models.CASCADE,
+        related_name='athletes'
+    )
 
 
 class Team(models.Model):
