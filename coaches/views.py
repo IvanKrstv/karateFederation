@@ -1,18 +1,37 @@
-from django.http import HttpRequest, HttpResponse
-from django.shortcuts import render
+from django.urls import reverse_lazy
+from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
+
+from coaches.forms import CoachAddForm, CoachEditForm, CoachDeleteForm
+from coaches.models import Coach
+
 
 # Create your views here.
-def coaches_dashboard(request: HttpRequest) -> HttpResponse:
-    return render(request, 'coaches/coaches-dashboard.html')
+class CoachBaseViewMixin:
+    model = Coach
+    success_url = reverse_lazy('coaches:dashboard')
 
 
-def coach_add(request: HttpRequest) -> HttpResponse:
-    return render(request, 'coaches/coach-add.html')
+class CoachesDashboardView(ListView):
+    model = Coach
+    template_name = 'coaches/coaches-dashboard.html'
+    context_object_name = 'coaches'
 
 
-def coach_edit(request: HttpRequest, pk: int) -> HttpResponse:
-    return render(request, 'coaches/coach-edit.html')
+class CoachDetailView(DetailView):
+    model = Coach
+    template_name = 'coaches/coach-details.html'
 
 
-def coach_delete(request: HttpRequest, pk: int) -> HttpResponse:
-    return render(request, 'coaches/coach-delete.html')
+class CoachAddView(CoachBaseViewMixin, CreateView):
+    form_class = CoachAddForm
+    template_name = 'coaches/coach-add.html'
+
+
+class CoachEditView(CoachBaseViewMixin, UpdateView):
+    form_class = CoachEditForm
+    template_name = 'coaches/coach-edit.html'
+
+
+class CoachDeleteView(CoachBaseViewMixin, DeleteView):
+    form_class = CoachDeleteForm
+    template_name = 'coaches/coach-delete.html'

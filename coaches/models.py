@@ -13,7 +13,7 @@ class Coach(PersonInfoMixin, CommonInfoMixin):
 
     coach_license = models.CharField(
         max_length=1,
-        choices=CoachLicenseChoices, # .choices?
+        choices=CoachLicenseChoices.choices,
         default=CoachLicenseChoices.D
     )
 

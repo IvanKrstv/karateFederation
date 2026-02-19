@@ -1,13 +1,17 @@
-from django.http import HttpRequest, HttpResponse
-from django.shortcuts import render
 from django.urls import reverse_lazy
 from django.views.generic import ListView, CreateView, UpdateView, DeleteView, DetailView
 
 from clubs.forms import ClubAddForm, ClubEditForm, ClubDeleteForm
 from clubs.models import Club
+from coaches.views import CoachBaseViewMixin
 
 
 # Create your views here.
+class ClubsBaseViewMixin:
+    model = Club
+    success_url = reverse_lazy('clubs:dashboard')
+
+
 class ClubsDashboardView(ListView):
     model = Club
     template_name = 'clubs/clubs-dashboard.html'
@@ -19,22 +23,16 @@ class ClubDetailView(DetailView):
     template_name = 'clubs/club-details.html'
 
 
-class ClubAddView(CreateView):
-    model = Club
+class ClubAddView(CoachBaseViewMixin, CreateView):
     form_class = ClubAddForm
     template_name = 'clubs/club-add.html'
-    success_url = reverse_lazy('clubs:dashboard')
 
 
-class ClubEditView(UpdateView):
-    model = Club
+class ClubEditView(CoachBaseViewMixin, UpdateView):
     form_class = ClubEditForm
     template_name = 'clubs/club-edit.html'
-    success_url = reverse_lazy('clubs:dashboard')
 
 
-class ClubDeleteView(DeleteView):
-    model = Club
+class ClubDeleteView(CoachBaseViewMixin, DeleteView):
     form_class = ClubDeleteForm
     template_name = 'clubs/club-delete.html'
-    success_url = reverse_lazy('clubs:dashboard')

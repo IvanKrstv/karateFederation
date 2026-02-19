@@ -1,0 +1,68 @@
+{% extends 'shared/base.html' %}
+{% load static %}
+
+{% block content %}
+<link rel="stylesheet" href="{% static 'css/coaches.css' %}">
+
+<div class="dashboard-container">
+    <div class="club-profile-header">
+        <div class="profile-cover">
+            <div class="profile-info">
+                {% if coach.photo %}
+                    <div class="profile-logo" style="background-image: url('{{ coach.photo.url }}');"></div>
+                {% else %}
+                    <div class="profile-logo placeholder">
+                        <span>{{ coach.name|slice:":1" }}</span>
+                    </div>
+                {% endif %}
+
+                <div class="profile-text">
+                    <h1>{{ coach.name }}</h1>
+                    <div class="location">
+                        <span>🏢</span> {{ coach.club.name }}
+                    </div>
+                </div>
+
+                <div class="profile-actions">
+                    <a href="{% url 'coaches:edit' pk=coach.pk %}" class="btn-action btn-edit" style="padding: 10px 20px; border-radius: 5px; display: inline-block; width: auto;">Edit Coach</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="profile-content">
+            <div class="main-info">
+                <div class="content-section">
+                    <h3>Coach Details</h3>
+                    <div class="info-grid">
+                        <div class="info-item">
+                            <label>Gender</label>
+                            <span>{{ coach.get_gender_display }}</span>
+                        </div>
+                        <div class="info-item">
+                            <label>Birth Date</label>
+                            <span>{{ coach.birth_date|date:"F d, Y" }}</span>
+                        </div>
+                        <div class="info-item">
+                            <label>License Type</label>
+                            <span>{{ coach.get_coach_license_display }}</span>
+                        </div>
+                        <div class="info-item">
+                            <label>Member Since</label>
+                            <span>{{ coach.created_at|date:"F d, Y" }}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="sidebar">
+                <div class="content-section">
+                    <h3>Quick Actions</h3>
+                    <div style="display: flex; flex-direction: column; gap: 10px;">
+                        <a href="{% url 'coaches:delete' pk=coach.pk %}" class="btn-action btn-delete">Delete Coach</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
