@@ -3,3 +3,4 @@ class DisableFieldsMixin:
         super().__init__(*args, **kwargs)
         for field in self.fields:
             self.fields[field].disabled = True
+            self.fields[field].required = False

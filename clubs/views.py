@@ -3,7 +3,6 @@ from django.views.generic import ListView, CreateView, UpdateView, DeleteView, D
 
 from clubs.forms import ClubAddForm, ClubEditForm, ClubDeleteForm
 from clubs.models import Club
-from coaches.views import CoachBaseViewMixin
 
 
 # Create your views here.
@@ -23,16 +22,21 @@ class ClubDetailView(DetailView):
     template_name = 'clubs/club-details.html'
 
 
-class ClubAddView(CoachBaseViewMixin, CreateView):
+class ClubAddView(ClubsBaseViewMixin, CreateView):
     form_class = ClubAddForm
     template_name = 'clubs/club-add.html'
 
 
-class ClubEditView(CoachBaseViewMixin, UpdateView):
+class ClubEditView(ClubsBaseViewMixin, UpdateView):
     form_class = ClubEditForm
     template_name = 'clubs/club-edit.html'
 
 
-class ClubDeleteView(CoachBaseViewMixin, DeleteView):
+class ClubDeleteView(ClubsBaseViewMixin, DeleteView):
     form_class = ClubDeleteForm
     template_name = 'clubs/club-delete.html'
+
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+        kwargs['instance'] = self.get_object()
+        return kwargs

@@ -1,5 +1,3 @@
-from django.http import HttpRequest, HttpResponse
-from django.shortcuts import render
 from django.urls import reverse_lazy
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 
@@ -37,3 +35,8 @@ class AthleteEditView(AthletesBaseViewMixin, UpdateView):
 class AthleteDeleteView(AthletesBaseViewMixin, DeleteView):
     form_class = AthleteDeleteForm
     template_name = 'athletes/athlete-delete.html'
+
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+        kwargs['instance'] = self.get_object()
+        return kwargs

@@ -35,3 +35,8 @@ class CoachEditView(CoachBaseViewMixin, UpdateView):
 class CoachDeleteView(CoachBaseViewMixin, DeleteView):
     form_class = CoachDeleteForm
     template_name = 'coaches/coach-delete.html'
+
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+        kwargs['instance'] = self.get_object()
+        return kwargs

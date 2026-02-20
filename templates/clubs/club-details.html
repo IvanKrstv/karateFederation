@@ -58,8 +58,8 @@
                 <div class="content-section">
                     <h3>Quick Actions</h3>
                     <div style="display: flex; flex-direction: column; gap: 10px;">
-                        <a href="#" class="btn-action btn-edit" style="background-color: #f39c12;">Add Coach</a>
-                        <a href="#" class="btn-action btn-edit" style="background-color: #27ae60;">Add Athlete</a>
+                        <a href="{% url 'coaches:add' %}" class="btn-action btn-edit" style="background-color: #f39c12;">Add Coach</a>
+                        <a href="{% url 'athletes:add' %}" class="btn-action btn-edit" style="background-color: #27ae60;">Add Athlete</a>
                         <a href="{% url 'clubs:delete' pk=club.pk %}" class="btn-action btn-delete">Delete Club</a>
                     </div>
                 </div>
