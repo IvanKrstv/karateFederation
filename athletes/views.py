@@ -15,6 +15,7 @@ class AthletesDashboardView(ListView):
     model = Athlete
     template_name = 'athletes/athletes-dashboard.html'
     context_object_name = 'athletes'
+    paginate_by = 6
 
 
 class AthleteDetailsView(DetailView):

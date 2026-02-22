@@ -1,0 +1,19 @@
+{% if is_paginated %}
+    <div class="pagination-container" style="margin-top: 40px; display: flex; justify-content: center;">
+        <div class="pagination" style="display: flex; gap: 5px; align-items: center;">
+            {% if page_obj.has_previous %}
+                <a href="?page=1" class="btn-page">&laquo; First</a>
+                <a href="?page={{ page_obj.previous_page_number }}" class="btn-page">Previous</a>
+            {% endif %}
+
+            <span class="current-page" style="padding: 8px 15px; background: #3498db; color: white; border-radius: 4px;">
+                Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}
+            </span>
+
+            {% if page_obj.has_next %}
+                <a href="?page={{ page_obj.next_page_number }}" class="btn-page">Next</a>
+                <a href="?page={{ page_obj.paginator.num_pages }}" class="btn-page">Last &raquo;</a>
+            {% endif %}
+        </div>
+    </div>
+{% endif %}

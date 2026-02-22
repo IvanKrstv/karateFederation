@@ -15,6 +15,7 @@ class CoachesDashboardView(ListView):
     model = Coach
     template_name = 'coaches/coaches-dashboard.html'
     context_object_name = 'coaches'
+    paginate_by = 6
 
 
 class CoachDetailView(DetailView):
