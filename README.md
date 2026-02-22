@@ -49,22 +49,36 @@ A Django-based web application designed to manage a Karate Federation's data, in
    source .venv/bin/activate
    ```
 
-3. **Install dependencies**:
+3. **Set up environment variables**:
+   The project requires a `.env` file for configuration. Use the provided `.env.example` as a template:
+   ```bash
+   cp .env.example .env
+   ```
+   Edit `.env` and provide your local credentials:
+   - `SECRET_KEY`: A secure Django secret key.
+   - `DB_NAME`: Your PostgreSQL database name.
+   - `DB_USER`: Your PostgreSQL user.
+   - `DB_PASS`: Your PostgreSQL password.
+   - `DB_HOST`: Database host (default: `localhost`).
+   - `DB_PORT`: Database port (default: `5432`).
+
+
+4. **Install dependencies**:
    ```bash
    pip install -r requirements.txt
    ```
 
-4. **Run migrations**:
+5. **Run migrations**:
    ```bash
    python manage.py migrate
    ```
 
-5. **Create a superuser (optional, for admin access)**:
+6. **Create a superuser (optional, for admin access)**:
    ```bash
    python manage.py createsuperuser
    ```
 
-6. **Start the development server**:
+7. **Start the development server**:
    ```bash
    python manage.py runserver
    ```
