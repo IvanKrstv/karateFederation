@@ -1,0 +1,94 @@
+{% extends 'shared/base.html' %}
+{% load static %}
+
+{% block content %}
+<style>
+    .error-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        min-height: 70vh;
+        text-align: center;
+        padding: 40px 20px;
+        background-color: #f4f4f4;
+    }
+
+    .error-code {
+        font-size: 8rem;
+        font-weight: 900;
+        color: #2c3e50;
+        margin: 0;
+        line-height: 1;
+        text-shadow: 4px 4px 0px #e74c3c;
+    }
+
+    .error-message {
+        font-size: 2rem;
+        color: #34495e;
+        margin: 20px 0;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+    }
+
+    .error-description {
+        font-size: 1.1rem;
+        color: #7f8c8d;
+        max-width: 500px;
+        margin-bottom: 30px;
+        line-height: 1.6;
+    }
+
+    .karate-belt {
+        width: 100%;
+        max-width: 400px;
+        height: 15px;
+        background-color: #2c3e50; /* Black belt */
+        margin: 20px 0;
+        border-radius: 5px;
+        position: relative;
+    }
+
+    .karate-belt::after {
+        content: '';
+        position: absolute;
+        right: 40px;
+        top: 0;
+        width: 10px;
+        height: 100%;
+        background-color: #f1c40f; /* Gold stripe */
+        box-shadow: 15px 0 0 #f1c40f;
+    }
+
+    .btn-dojo {
+        display: inline-block;
+        background-color: #e74c3c;
+        color: white;
+        padding: 15px 40px;
+        text-decoration: none;
+        font-size: 1.2rem;
+        font-weight: 600;
+        border-radius: 5px;
+        transition: all 0.3s ease;
+        text-transform: uppercase;
+        box-shadow: 0 4px 15px rgba(231, 76, 60, 0.3);
+    }
+
+    .btn-dojo:hover {
+        background-color: #c0392b;
+        transform: translateY(-3px);
+        box-shadow: 0 6px 20px rgba(231, 76, 60, 0.4);
+    }
+</style>
+
+<div class="error-container">
+    <h1 class="error-code">404</h1>
+    <div class="karate-belt"></div>
+    <h2 class="error-message">Lost your focus?</h2>
+    <p class="error-description">
+        This page has been countered. It seems the path you were looking for doesn't exist in our Dojo. 
+        Take a deep breath, reset your stance, and head back to safety.
+    </p>
+    <a href="{% url 'common:home' %}" class="btn-dojo">Back to Dojo</a>
+</div>
+{% endblock %}

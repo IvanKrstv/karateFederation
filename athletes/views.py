@@ -1,4 +1,4 @@
-from django.urls import reverse_lazy
+from django.urls import reverse_lazy, reverse
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 
 from athletes.forms import AthleteAddForm, AthleteEditForm, AthleteDeleteForm
@@ -27,9 +27,18 @@ class AthleteAddView(AthletesBaseViewMixin, CreateView):
     template_name = 'athletes/athlete-add.html'
 
 
-class AthleteEditView(AthletesBaseViewMixin, UpdateView):
+class AthleteEditView(UpdateView):
+    model = Athlete
     form_class = AthleteEditForm
     template_name = 'athletes/athlete-edit.html'
+
+    def get_success_url(self):
+        return reverse(
+            'athletes:details',
+            kwargs={
+                'pk': self.object.pk
+            }
+        )
 
 
 class AthleteDeleteView(AthletesBaseViewMixin, DeleteView):

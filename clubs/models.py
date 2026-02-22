@@ -3,6 +3,7 @@ from django.db import models
 from django.utils.text import slugify
 
 from common.models import CommonInfoMixin
+from common.validators import OnlyLetterValidator
 
 
 # Create your models here.
@@ -12,28 +13,33 @@ class Club(CommonInfoMixin):
         validators=[
             MinLengthValidator(limit_value=3)
         ],
-        unique=True
     )
 
     founder_name = models.CharField(
         max_length=50,
         validators=[
-            MinLengthValidator(limit_value=3)
+            MinLengthValidator(limit_value=3),
+            OnlyLetterValidator()
         ]
     )
 
     country = models.CharField(
-        max_length=50
+        max_length=50,
+        validators=[
+            OnlyLetterValidator(message="the country must include only letters!")
+        ]
     )
 
     city = models.CharField(
-        max_length=50
+        max_length=50,
+        validators=[
+            OnlyLetterValidator(message="the city must include only letters!")
+        ]
     )
 
     slug = models.SlugField(
         unique=True,
         blank=True,
-        null=True
     )
 
     def save(self, *args, **kwargs) -> None:
@@ -44,3 +50,12 @@ class Club(CommonInfoMixin):
 
     def __str__(self):
         return self.name
+
+
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(
+                fields=['name', 'city'],
+                name='unique_club_name_city'
+            )
+        ]

@@ -1,11 +1,17 @@
 from django.core.validators import MinLengthValidator
 from django.db import models
 
+from common.validators import OnlyLetterValidator, FileSizeValidator
+
+
 # Create your models here.
 class CommonInfoMixin(models.Model):
     photo = models.ImageField(
         null=True,
         blank=True,
+        validators=[
+            FileSizeValidator(file_size=10)
+        ]
     )
 
     created_at = models.DateTimeField(
@@ -25,13 +31,14 @@ class PersonInfoMixin(models.Model):
     name = models.CharField(
         max_length=50,
         validators=[
-            MinLengthValidator(limit_value=3)
+            MinLengthValidator(limit_value=3),
+            OnlyLetterValidator()
         ],
     )
 
     gender = models.CharField(
         max_length=6,
-        choices=GendersChoices,
+        choices=GendersChoices.choices,
     )
     birth_date = models.DateField()
 

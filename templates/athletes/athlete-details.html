@@ -9,7 +9,8 @@
         <div class="profile-cover">
             <div class="profile-info">
                 {% if athlete.photo %}
-                    <div class="profile-logo" style="background-image: url('{{ athlete.photo.url }}');"></div>
+                    <div class="profile-logo" style="background-image: url('{{ athlete.photo.url }}');" title="{{ athlete.name }}">
+                    </div>
                 {% else %}
                     <div class="profile-logo placeholder">
                         <span>{{ athlete.name|slice:":1" }}</span>
@@ -18,14 +19,14 @@
 
                 <div class="profile-text">
                     <h1>{{ athlete.name }}</h1>
-                    <div class="location">
+                    <div class="location-badge">
                         <span>🏢</span> {{ athlete.club.name }}
                     </div>
                 </div>
 
-                <div class="profile-actions">
-                    <a href="{% url 'athletes:edit' pk=athlete.pk %}" class="btn-action btn-edit" style="padding: 10px 20px; border-radius: 5px; display: inline-block; width: auto;">Edit Athlete</a>
-                </div>
+{#                <div class="profile-actions">#}
+{#                    <a href="{% url 'athletes:edit' pk=athlete.pk %}" class="btn-action btn-edit" style="padding: 10px 20px; border-radius: 5px; display: inline-block; width: auto;">Edit Athlete</a>#}
+{#                </div>#}
             </div>
         </div>
 
@@ -71,6 +72,7 @@
                 <div class="content-section">
                     <h3>Quick Actions</h3>
                     <div style="display: flex; flex-direction: column; gap: 10px;">
+                        <a href="{% url 'athletes:edit' pk=athlete.pk %}" class="btn-action btn-edit" style="background-color: #3498db;">Edit Athlete</a>
                         <a href="{% url 'athletes:delete' pk=athlete.pk %}" class="btn-action btn-delete">Delete Athlete</a>
                     </div>
                 </div>

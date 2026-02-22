@@ -9,7 +9,8 @@
         <div class="profile-cover">
             <div class="profile-info">
                 {% if club.photo %}
-                    <div class="profile-logo" style="background-image: url('{{ club.photo.url }}');"></div>
+                    <div class="profile-logo" style="background-image: url('{{ club.photo.url }}');" title="{{ club.name }}">
+                    </div>
                 {% else %}
                     <div class="profile-logo placeholder">
                         <span>{{ club.name|slice:":1" }}</span>
@@ -18,14 +19,14 @@
 
                 <div class="profile-text">
                     <h1>{{ club.name }}</h1>
-                    <div class="location">
+                    <div class="location-badge">
                         <span>📍</span> {{ club.city }}, {{ club.country }}
                     </div>
                 </div>
-
-                <div class="profile-actions">
-                    <a href="{% url 'clubs:edit' pk=club.pk %}" class="btn-action btn-edit" style="padding: 10px 20px; border-radius: 5px; display: inline-block; width: auto;">Edit Club</a>
-                </div>
+{##}
+{#                <div class="profile-actions">#}
+{#                    <a href="{% url 'clubs:edit' pk=club.pk %}" class="btn-action btn-edit" style="padding: 10px 20px; border-radius: 5px; display: inline-block; width: auto;">Edit Club</a>#}
+{#                </div>#}
             </div>
         </div>
 
@@ -49,7 +50,11 @@
                 <div class="content-section">
                     <h3>Club Statistics</h3>
                     <p style="color: #7f8c8d;">
-                        <em>Statistics module coming soon...</em>
+                        {% for team in club.teams.all %}
+                            {{ team.name }}
+                        {% empty %}
+                            No teams
+                        {% endfor %}
                     </p>
                 </div>
             </div>
@@ -58,8 +63,9 @@
                 <div class="content-section">
                     <h3>Quick Actions</h3>
                     <div style="display: flex; flex-direction: column; gap: 10px;">
-                        <a href="{% url 'coaches:add' %}" class="btn-action btn-edit" style="background-color: #f39c12;">Add Coach</a>
-                        <a href="{% url 'athletes:add' %}" class="btn-action btn-edit" style="background-color: #27ae60;">Add Athlete</a>
+{#                        <a href="{% url  %}" class="btn-action btn-edit" style="background-color: #3498db;">Add Team</a>#}
+{#                        <a href="{% url  %}" class="btn-action btn-edit" style="background-color: #3498db;">Teams</a>#}
+                        <a href="{% url 'clubs:edit' pk=club.pk %}" class="btn-action btn-edit" style="background-color: #3498db;">Edit Club</a>
                         <a href="{% url 'clubs:delete' pk=club.pk %}" class="btn-action btn-delete">Delete Club</a>
                     </div>
                 </div>
