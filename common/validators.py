@@ -10,7 +10,7 @@ class OnlyLetterValidator:
 
     def __call__(self, value: str):
         for char in value:
-            if not char.isalpha():
+            if not (char.isalpha() or char == ' '):
                 raise ValidationError(self.__message)
 
 

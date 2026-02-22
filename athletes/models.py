@@ -25,6 +25,9 @@ class Athlete(PersonInfoMixin, CommonInfoMixin):
         related_name='athletes'
     )
 
+    def __str__(self):
+        return self.name
+
 
 class Team(models.Model):
     name = models.CharField(

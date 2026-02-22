@@ -2,8 +2,8 @@ from django.db.models import Prefetch
 from django.urls import reverse_lazy, reverse
 from django.views.generic import ListView, CreateView, UpdateView, DeleteView, DetailView
 
-from athletes.models import Athlete
-from clubs.forms import ClubAddForm, ClubEditForm, ClubDeleteForm
+from athletes.models import Athlete, Team
+from clubs.forms import ClubAddForm, ClubEditForm, ClubDeleteForm, TeamEditForm, TeamDeleteForm, TeamAddForm
 from clubs.models import Club
 
 
@@ -17,6 +17,7 @@ class ClubsDashboardView(ListView):
     model = Club
     template_name = 'clubs/clubs-dashboard.html'
     context_object_name = 'clubs'
+    paginate_by = 6
     
     def get_queryset(self):
         qs = super().get_queryset()
@@ -38,12 +39,14 @@ class ClubDetailView(DetailView):
                 'athletes',
                 queryset=Athlete.objects.prefetch_related('teams')
             ),
-            'coaches',
-            'athletes'
+            Prefetch(
+                'teams',
+                queryset=Team.objects.prefetch_related('athletes')
+            ),
+            'coaches'
         )
 
         return qs
-
 
 
 class ClubAddView(ClubsBaseViewMixin, CreateView):
@@ -73,3 +76,64 @@ class ClubDeleteView(ClubsBaseViewMixin, DeleteView):
         kwargs = super().get_form_kwargs()
         kwargs['instance'] = self.get_object()
         return kwargs
+
+
+
+class TeamAddView(CreateView):
+    model = Team
+    form_class = TeamAddForm
+    template_name = 'teams/team-add.html'
+
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+        kwargs['club_id'] = self.kwargs['pk']
+        return kwargs
+
+    def get_success_url(self):
+        return reverse(
+            'clubs:details',
+            kwargs={
+                'pk': self.kwargs['pk']
+            }
+        )
+
+
+class TeamEditView(UpdateView):
+    model = Team
+    form_class = TeamEditForm
+    template_name = 'teams/team-edit.html'
+    pk_url_kwarg = 'team_pk'
+
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+        kwargs['club_id'] = self.kwargs['pk']
+        return kwargs
+
+    def get_success_url(self):
+        return reverse(
+            'clubs:details',
+            kwargs={
+                'pk': self.kwargs['pk']
+            }
+        )
+
+
+class TeamDeleteView(DeleteView):
+    model = Team
+    form_class = TeamDeleteForm
+    template_name = 'teams/team-delete.html'
+    pk_url_kwarg = 'team_pk'
+
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+        kwargs['instance'] = self.get_object()
+        kwargs['club_id'] = self.kwargs['pk']
+        return kwargs
+
+    def get_success_url(self):
+        return reverse(
+            'clubs:details',
+            kwargs={
+                'pk': self.kwargs['pk']
+            }
+        )

@@ -46,16 +46,31 @@
                     </div>
                 </div>
 
-                <!-- Placeholder for future sections like Athletes or Recent Results -->
+                <!-- Teams Section -->
                 <div class="content-section">
-                    <h3>Club Statistics</h3>
-                    <p style="color: #7f8c8d;">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+                        <h3>Club Teams</h3>
+                    </div>
+                    
+                    <div class="teams-list" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 15px;">
                         {% for team in club.teams.all %}
-                            {{ team.name }}
+                            <div class="team-card" style="border: 1px solid #eee; padding: 15px; border-radius: 8px; background: #f9f9f9;">
+                                <h4 style="margin-top: 0; color: #2c3e50;">{{ team.name }}</h4>
+                                <p style="font-size: 0.9em; color: #7f8c8d;">
+                                    <strong>Athletes:</strong><br>
+                                    {% for athlete in team.athletes.all %}
+                                        {{ athlete.name }}{% if not forloop.last %}, {% endif %}
+                                    {% endfor %}
+                                </p>
+                                <div class="team-actions" style="margin-top: 10px; display: flex; gap: 10px;">
+                                    <a href="{% url 'clubs:team-edit' pk=club.pk team_pk=team.pk %}" class="btn-action btn-edit" style="font-size: 0.8em; padding: 5px 10px;">Edit</a>
+                                    <a href="{% url 'clubs:team-delete' pk=club.pk team_pk=team.pk %}" class="btn-action btn-delete" style="font-size: 0.8em; padding: 5px 10px;">Delete</a>
+                                </div>
+                            </div>
                         {% empty %}
-                            No teams
+                            <p style="color: #7f8c8d; grid-column: 1 / -1;">No teams registered for this club.</p>
                         {% endfor %}
-                    </p>
+                    </div>
                 </div>
             </div>
 
@@ -63,8 +78,7 @@
                 <div class="content-section">
                     <h3>Quick Actions</h3>
                     <div style="display: flex; flex-direction: column; gap: 10px;">
-{#                        <a href="{% url  %}" class="btn-action btn-edit" style="background-color: #3498db;">Add Team</a>#}
-{#                        <a href="{% url  %}" class="btn-action btn-edit" style="background-color: #3498db;">Teams</a>#}
+                        <a href="{% url 'clubs:team-add' pk=club.pk %}" class="btn-action" style="background-color: #27ae60; color: white; text-align: center; padding: 10px; border-radius: 5px; text-decoration: none;">Add Team</a>
                         <a href="{% url 'clubs:edit' pk=club.pk %}" class="btn-action btn-edit" style="background-color: #3498db;">Edit Club</a>
                         <a href="{% url 'clubs:delete' pk=club.pk %}" class="btn-action btn-delete">Delete Club</a>
                     </div>
