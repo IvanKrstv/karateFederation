@@ -46,3 +46,6 @@ class Team(models.Model):
         to='Athlete',
         related_name='teams'
     )
+
+    def __str__(self):
+        return self.name

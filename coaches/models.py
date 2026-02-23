@@ -23,3 +23,7 @@ class Coach(PersonInfoMixin, CommonInfoMixin):
         on_delete=models.CASCADE,
         related_name='coaches'
     )
+
+    def __str__(self):
+        return self.name
+    
