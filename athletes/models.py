@@ -41,7 +41,7 @@ class Team(models.Model):
         related_name='teams'
     )
 
-    # Many athletes can participate in many clubs
+    # Many athletes can participate in many teams
     athletes = models.ManyToManyField(
         to='Athlete',
         related_name='teams'

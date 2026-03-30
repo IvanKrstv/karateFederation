@@ -37,7 +37,8 @@ PROJECT_APPS = [
     'common',
     'clubs',
     'coaches',
-    'athletes'
+    'athletes',
+    'tournaments'
 ]
 
 INSTALLED_APPS = [
