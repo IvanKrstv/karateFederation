@@ -1,0 +1,87 @@
+{% extends 'shared/base.html' %}
+{% load static %}
+
+{% block content %}
+<link rel="stylesheet" href="{% static 'css/tournaments.css' %}">
+
+<div class="dashboard-container">
+    <div class="club-profile-header">
+        <div class="profile-cover">
+            <div class="profile-info">
+                {% if tournament.photo %}
+                    <div class="profile-logo" style="background-image: url('{{ tournament.photo.url }}');" title="{{ tournament.name }}">
+                    </div>
+                {% else %}
+                    <div class="profile-logo placeholder">
+                        <span>{{ tournament.name|slice:":1" }}</span>
+                    </div>
+                {% endif %}
+
+                <div class="profile-text">
+                    <h1>{{ tournament.name }}</h1>
+                    <div class="location-badge">
+                        <span>📍</span> {{ tournament.city }}, {{ tournament.country }}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="profile-content">
+            <div class="main-info">
+                <div class="content-section">
+                    <h3>Tournament Details</h3>
+                    <div class="info-grid">
+                        <div class="info-item">
+                            <label>Date</label>
+                            <span>{{ tournament.date|date:"F d, Y" }}</span>
+                        </div>
+                        <div class="info-item">
+                            <label>Country</label>
+                            <span>{{ tournament.country }}</span>
+                        </div>
+                        <div class="info-item">
+                            <label>City</label>
+                            <span>{{ tournament.city }}</span>
+                        </div>
+                        <div class="info-item">
+                            <label>Created At</label>
+                            <span>{{ tournament.created_at|date:"F d, Y" }}</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="content-section">
+                    <h3>Participating Teams</h3>
+                    {% if tournament.teams.all %}
+                        <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 15px;">
+                            {% for team in tournament.teams.all %}
+                                <div style="border: 1px solid #eee; padding: 15px; border-radius: 8px; background: #f9f9f9;">
+                                    <h4 style="margin-top: 0; color: #2c3e50;">{{ team.name }}</h4>
+                                    <p style="font-size: 0.9em; color: #7f8c8d; margin-bottom: 0;">
+                                        <strong>Athletes:</strong><br>
+                                        {% for athlete in team.athletes.all %}
+                                            {{ athlete.name }}{% if not forloop.last %}, {% endif %}
+                                        {% endfor %}
+                                    </p>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        <p style="color: #7f8c8d;">No teams registered for this tournament.</p>
+                    {% endif %}
+                </div>
+            </div>
+
+            <div class="sidebar">
+                <div class="content-section">
+                    <h3>Quick Actions</h3>
+                    <div style="display: flex; flex-direction: column; gap: 10px;">
+                        <a href="{% url 'tournaments:edit' pk=tournament.pk %}" class="btn-action btn-edit" style="background-color: #3498db;">Edit Tournament</a>
+                        <a href="{% url 'tournaments:delete' pk=tournament.pk %}" class="btn-action btn-delete">Delete Tournament</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

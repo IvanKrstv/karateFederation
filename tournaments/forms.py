@@ -8,7 +8,6 @@ class TournamentForm(forms.ModelForm):
     class Meta:
         model = Tournament
         fields = '__all__'
-        exclude = ['created_at',]
 
         labels = {
             'name': 'Name:',

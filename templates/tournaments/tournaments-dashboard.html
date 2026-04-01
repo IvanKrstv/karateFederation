@@ -1,0 +1,61 @@
+{% extends 'shared/base.html' %}
+{% load static %}
+
+{% block content %}
+<link rel="stylesheet" href="{% static 'css/tournaments.css' %}">
+
+<div class="dashboard-container">
+    <div class="dashboard-header">
+        <h1>Tournaments Directory</h1>
+        <a href="{% url 'tournaments:add' %}" class="btn-add">
+            <span>+</span> Add New Tournament
+        </a>
+    </div>
+
+    <div class="clubs-grid">
+        {% for tournament in tournaments %}
+        <div class="club-card">
+            <a href="{% url 'tournaments:details' pk=tournament.pk %}" class="club-link">
+                {% if tournament.photo %}
+                    <div class="club-image" style="background-image: url('{{ tournament.photo.url }}');"></div>
+                {% else %}
+                    <div class="club-image placeholder">
+                        <span>{{ tournament.name|slice:":1" }}</span>
+                    </div>
+                {% endif %}
+            </a>
+
+            <div class="club-details">
+                <a href="{% url 'tournaments:details' pk=tournament.pk %}" style="text-decoration: none;">
+                    <h2 class="club-name">{{ tournament.name }}</h2>
+                </a>
+                <ul class="club-meta">
+                    <li>
+                        <strong>Date:</strong> {{ tournament.date|date:"M d, Y" }}
+                    </li>
+                    <li>
+                        <strong>Location:</strong> {{ tournament.city }}, {{ tournament.country }}
+                    </li>
+                    <li>
+                        <strong>Teams:</strong> {{ tournament.teams.count }}
+                    </li>
+                </ul>
+
+                <div class="club-actions">
+                    <a href="{% url 'tournaments:edit' pk=tournament.pk %}" class="btn-action btn-edit">Edit</a>
+                    <a href="{% url 'tournaments:delete' pk=tournament.pk %}" class="btn-action btn-delete">Delete</a>
+                </div>
+            </div>
+        </div>
+        {% empty %}
+        <div class="empty-state">
+            <h3>No tournaments found</h3>
+            <p>Get started by adding the first karate tournament to the federation.</p>
+            <br>
+            <a href="{% url 'tournaments:add' %}" class="btn-add">Add Tournament</a>
+        </div>
+        {% endfor %}
+    </div>
+    {% include 'shared/pagination.html' %}
+</div>
+{% endblock %}
