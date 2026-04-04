@@ -21,8 +21,12 @@ class RegisterView(CreateView):
 class UserLoginView(LoginView):
     form_class = LoginForm
     template_name = 'accounts/login.html'
-    redirect_authenticated_user = True
     next_page = reverse_lazy('common:home')
+
+    def dispatch(self, request, *args, **kwargs):
+        if request.user.is_authenticated:
+            return redirect('common:home')
+        return super().dispatch(request, *args, **kwargs)
 
 
 def logout_view(request):
