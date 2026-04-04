@@ -7,9 +7,11 @@
 <div class="dashboard-container">
     <div class="dashboard-header">
         <h1>Athletes Directory</h1>
+        {% if perms.athletes.add_athlete %}
         <a href="{% url 'athletes:add' %}" class="btn-add">
             <span>+</span> Add New Athlete
         </a>
+        {% endif %}
     </div>
 
     <div class="clubs-grid">
@@ -45,8 +47,12 @@
                 </ul>
 
                 <div class="club-actions">
+                    {% if perms.athletes.change_athlete %}
                     <a href="{% url 'athletes:edit' pk=athlete.pk %}" class="btn-action btn-edit">Edit</a>
+                    {% endif %}
+                    {% if perms.athletes.delete_athlete %}
                     <a href="{% url 'athletes:delete' pk=athlete.pk %}" class="btn-action btn-delete">Delete</a>
+                    {% endif %}
                 </div>
             </div>
         </div>
@@ -55,7 +61,7 @@
             <h3>No athletes found</h3>
             <p>Get started by adding the first karate athlete to the federation.</p>
             <br>
-            <a href="{% url 'athletes:add' %}" class="btn-add">Add Athlete</a>
+            {% if perms.athletes.add_athlete %}<a href="{% url 'athletes:add' %}" class="btn-add">Add Athlete</a>{% endif %}
         </div>
         {% endfor %}
     </div>

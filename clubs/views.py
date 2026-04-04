@@ -1,3 +1,4 @@
+from django.contrib.auth.mixins import PermissionRequiredMixin
 from django.db.models import Prefetch
 from django.urls import reverse_lazy, reverse
 from django.views.generic import ListView, CreateView, UpdateView, DeleteView, DetailView
@@ -18,7 +19,7 @@ class ClubsDashboardView(ListView):
     template_name = 'clubs/clubs-dashboard.html'
     context_object_name = 'clubs'
     paginate_by = 6
-    
+
     def get_queryset(self):
         qs = super().get_queryset()
         query = self.request.GET.get('query')
@@ -49,12 +50,14 @@ class ClubDetailView(DetailView):
         return qs
 
 
-class ClubAddView(ClubsBaseViewMixin, CreateView):
+class ClubAddView(PermissionRequiredMixin, ClubsBaseViewMixin, CreateView):
+    permission_required = 'clubs.add_club'
     form_class = ClubAddForm
     template_name = 'clubs/club-add.html'
 
 
-class ClubEditView(UpdateView):
+class ClubEditView(PermissionRequiredMixin, UpdateView):
+    permission_required = 'clubs.change_club'
     model = Club
     form_class = ClubEditForm
     template_name = 'clubs/club-edit.html'
@@ -68,7 +71,8 @@ class ClubEditView(UpdateView):
         )
 
 
-class ClubDeleteView(ClubsBaseViewMixin, DeleteView):
+class ClubDeleteView(PermissionRequiredMixin, ClubsBaseViewMixin, DeleteView):
+    permission_required = 'clubs.delete_club'
     form_class = ClubDeleteForm
     template_name = 'clubs/club-delete.html'
 
@@ -78,8 +82,8 @@ class ClubDeleteView(ClubsBaseViewMixin, DeleteView):
         return kwargs
 
 
-
-class TeamAddView(CreateView):
+class TeamAddView(PermissionRequiredMixin, CreateView):
+    permission_required = 'athletes.add_team'
     model = Team
     form_class = TeamAddForm
     template_name = 'teams/team-add.html'
@@ -98,7 +102,8 @@ class TeamAddView(CreateView):
         )
 
 
-class TeamEditView(UpdateView):
+class TeamEditView(PermissionRequiredMixin, UpdateView):
+    permission_required = 'athletes.change_team'
     model = Team
     form_class = TeamEditForm
     template_name = 'teams/team-edit.html'
@@ -118,7 +123,8 @@ class TeamEditView(UpdateView):
         )
 
 
-class TeamDeleteView(DeleteView):
+class TeamDeleteView(PermissionRequiredMixin, DeleteView):
+    permission_required = 'athletes.delete_team'
     model = Team
     form_class = TeamDeleteForm
     template_name = 'teams/team-delete.html'

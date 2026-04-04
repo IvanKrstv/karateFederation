@@ -68,15 +68,21 @@
                 </div>
             </div>
 
+            {% if perms.athletes.change_athlete or perms.athletes.delete_athlete %}
             <div class="sidebar">
                 <div class="content-section">
                     <h3>Quick Actions</h3>
                     <div style="display: flex; flex-direction: column; gap: 10px;">
+                        {% if perms.athletes.change_athlete %}
                         <a href="{% url 'athletes:edit' pk=athlete.pk %}" class="btn-action btn-edit" style="background-color: #3498db;">Edit Athlete</a>
+                        {% endif %}
+                        {% if perms.athletes.delete_athlete %}
                         <a href="{% url 'athletes:delete' pk=athlete.pk %}" class="btn-action btn-delete">Delete Athlete</a>
+                        {% endif %}
                     </div>
                 </div>
             </div>
+            {% endif %}
         </div>
     </div>
 </div>

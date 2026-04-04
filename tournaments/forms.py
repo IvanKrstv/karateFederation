@@ -22,7 +22,23 @@ class TournamentForm(forms.ModelForm):
         }
 
         widgets = {
-            'teams': forms.SelectMultiple()
+            'teams': forms.SelectMultiple(),
+            'name': forms.TextInput(attrs={'placeholder': 'Enter tournament name...'}),
+            'date': forms.DateInput(attrs={'type': 'date'}),
+            'country': forms.TextInput(attrs={'placeholder': 'Enter tournament country...'}),
+            'city': forms.TextInput(attrs={'placeholder': 'Enter tournament city...'}),
+        }
+
+        error_messages = {
+            'name': {
+                'max_length': 'The name length must not exceed 50 characters!'
+            },
+            'country': {
+                'max_length': 'There are no country with more than 50 characters!'
+            },
+            'city': {
+                'max_length': 'There are no city with more than 50 characters!'
+            }
         }
 
 

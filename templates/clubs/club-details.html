@@ -63,8 +63,12 @@
                                     {% endfor %}
                                 </p>
                                 <div class="team-actions" style="margin-top: 10px; display: flex; gap: 10px;">
+                                    {% if perms.athletes.change_team %}
                                     <a href="{% url 'clubs:team-edit' pk=club.pk team_pk=team.pk %}" class="btn-action btn-edit" style="font-size: 0.8em; padding: 5px 10px;">Edit</a>
+                                    {% endif %}
+                                    {% if perms.athletes.delete_team %}
                                     <a href="{% url 'clubs:team-delete' pk=club.pk team_pk=team.pk %}" class="btn-action btn-delete" style="font-size: 0.8em; padding: 5px 10px;">Delete</a>
+                                    {% endif %}
                                 </div>
                             </div>
                         {% empty %}
@@ -74,16 +78,24 @@
                 </div>
             </div>
 
+            {% if perms.athletes.add_team or perms.clubs.change_club or perms.clubs.delete_club %}
             <div class="sidebar">
                 <div class="content-section">
                     <h3>Quick Actions</h3>
                     <div style="display: flex; flex-direction: column; gap: 10px;">
+                        {% if perms.athletes.add_team %}
                         <a href="{% url 'clubs:team-add' pk=club.pk %}" class="btn-action" style="background-color: #27ae60; color: white; text-align: center; padding: 10px; border-radius: 5px; text-decoration: none;">Add Team</a>
+                        {% endif %}
+                        {% if perms.clubs.change_club %}
                         <a href="{% url 'clubs:edit' pk=club.pk %}" class="btn-action btn-edit" style="background-color: #3498db;">Edit Club</a>
+                        {% endif %}
+                        {% if perms.clubs.delete_club %}
                         <a href="{% url 'clubs:delete' pk=club.pk %}" class="btn-action btn-delete">Delete Club</a>
+                        {% endif %}
                     </div>
                 </div>
             </div>
+            {% endif %}
         </div>
     </div>
 </div>

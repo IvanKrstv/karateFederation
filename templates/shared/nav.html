@@ -21,41 +21,62 @@
 
         <div class="nav-links">
             <ul class="nav-group">
-                <li class="nav-item dropdown">
+
+                <li class="nav-item {% if perms.clubs.add_club %}dropdown{% endif %}">
                     <a href="{% url 'clubs:dashboard' %}">
                         <i>Clubs</i>
                     </a>
+                    {% if perms.clubs.add_club %}
                     <div class="dropdown-content">
                         <a href="{% url 'clubs:add' %}">Add Club</a>
                     </div>
+                    {% endif %}
                 </li>
 
-                <li class="nav-item dropdown">
+                <li class="nav-item {% if perms.coaches.add_coach %}dropdown{% endif %}">
                     <a href="{% url 'coaches:dashboard' %}">
                         <i>Coaches</i>
                     </a>
+                    {% if perms.coaches.add_coach %}
                     <div class="dropdown-content">
                         <a href="{% url 'coaches:add' %}">Add Coach</a>
                     </div>
+                    {% endif %}
                 </li>
 
-                <li class="nav-item dropdown">
+                <li class="nav-item {% if perms.athletes.add_athlete %}dropdown{% endif %}">
                     <a href="{% url 'athletes:dashboard' %}">
                         <i>Athletes</i>
                     </a>
+                    {% if perms.athletes.add_athlete %}
                     <div class="dropdown-content">
                         <a href="{% url 'athletes:add' %}">Add Athlete</a>
                     </div>
+                    {% endif %}
                 </li>
 
-                <li class="nav-item dropdown">
+                <li class="nav-item {% if perms.tournaments.add_tournament %}dropdown{% endif %}">
                     <a href="{% url 'tournaments:dashboard' %}">
                         <i>Tournaments</i>
                     </a>
+                    {% if perms.tournaments.add_tournament %}
                     <div class="dropdown-content">
                         <a href="{% url 'tournaments:add' %}">Add Tournament</a>
                     </div>
+                    {% endif %}
                 </li>
+                {% if user.is_authenticated %}
+                <li class="nav-item">
+                    <a href="{% url 'accounts:logout' %}"><i>Logout</i></a>
+                </li>
+                {% else %}
+                <li class="nav-item">
+                    <a href="{% url 'accounts:login' %}"><i>Login</i></a>
+                </li>
+                <li class="nav-item">
+                    <a href="{% url 'accounts:register' %}"><i>Register</i></a>
+                </li>
+                {% endif %}
             </ul>
         </div>
     </div>

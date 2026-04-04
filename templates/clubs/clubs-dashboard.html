@@ -7,9 +7,11 @@
 <div class="dashboard-container">
     <div class="dashboard-header">
         <h1>Clubs Directory</h1>
+        {% if perms.clubs.add_club %}
         <a href="{% url 'clubs:add' %}" class="btn-add">
             <span>+</span> Add New Club
         </a>
+        {% endif %}
     </div>
 
     <div class="clubs-grid">
@@ -42,8 +44,12 @@
                 </ul>
 
                 <div class="club-actions">
+                    {% if perms.clubs.change_club %}
                     <a href="{% url 'clubs:edit' pk=club.pk %}" class="btn-action btn-edit">Edit</a>
+                    {% endif %}
+                    {% if perms.clubs.delete_club %}
                     <a href="{% url 'clubs:delete' pk=club.pk %}" class="btn-action btn-delete">Delete</a>
+                    {% endif %}
                 </div>
             </div>
         </div>
@@ -52,7 +58,7 @@
             <h3>No clubs found</h3>
             <p>Get started by adding the first karate club to the federation.</p>
             <br>
-            <a href="{% url 'clubs:add' %}" class="btn-add">Add Club</a>
+            {% if perms.clubs.add_club %}<a href="{% url 'clubs:add' %}" class="btn-add">Add Club</a>{% endif %}
         </div>
         {% endfor %}
     </div>

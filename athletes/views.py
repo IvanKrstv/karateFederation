@@ -1,3 +1,4 @@
+from django.contrib.auth.mixins import PermissionRequiredMixin
 from django.urls import reverse_lazy, reverse
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 
@@ -23,12 +24,14 @@ class AthleteDetailsView(DetailView):
     template_name = 'athletes/athlete-details.html'
 
 
-class AthleteAddView(AthletesBaseViewMixin, CreateView):
+class AthleteAddView(PermissionRequiredMixin, AthletesBaseViewMixin, CreateView):
+    permission_required = 'athletes.add_athlete'
     form_class = AthleteAddForm
     template_name = 'athletes/athlete-add.html'
 
 
-class AthleteEditView(UpdateView):
+class AthleteEditView(PermissionRequiredMixin, UpdateView):
+    permission_required = 'athletes.change_athlete'
     model = Athlete
     form_class = AthleteEditForm
     template_name = 'athletes/athlete-edit.html'
@@ -42,7 +45,8 @@ class AthleteEditView(UpdateView):
         )
 
 
-class AthleteDeleteView(AthletesBaseViewMixin, DeleteView):
+class AthleteDeleteView(PermissionRequiredMixin, AthletesBaseViewMixin, DeleteView):
+    permission_required = 'athletes.delete_athlete'
     form_class = AthleteDeleteForm
     template_name = 'athletes/athlete-delete.html'
 

@@ -72,15 +72,21 @@
                 </div>
             </div>
 
+            {% if perms.tournaments.change_tournament or perms.tournaments.delete_tournament %}
             <div class="sidebar">
                 <div class="content-section">
                     <h3>Quick Actions</h3>
                     <div style="display: flex; flex-direction: column; gap: 10px;">
+                        {% if perms.tournaments.change_tournament %}
                         <a href="{% url 'tournaments:edit' pk=tournament.pk %}" class="btn-action btn-edit" style="background-color: #3498db;">Edit Tournament</a>
+                        {% endif %}
+                        {% if perms.tournaments.delete_tournament %}
                         <a href="{% url 'tournaments:delete' pk=tournament.pk %}" class="btn-action btn-delete">Delete Tournament</a>
+                        {% endif %}
                     </div>
                 </div>
             </div>
+            {% endif %}
         </div>
     </div>
 </div>

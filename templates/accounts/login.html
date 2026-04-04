@@ -1,0 +1,45 @@
+{% extends 'shared/base.html' %}
+{% load static %}
+
+{% block content %}
+<link rel="stylesheet" href="{% static 'css/accounts.css' %}">
+
+<div class="form-container">
+    <div class="form-header">
+        <h2>Login</h2>
+        <p>Sign in to your account.</p>
+    </div>
+
+    <form method="post" class="styled-form">
+        {% csrf_token %}
+
+        {% for field in form %}
+        <div class="form-group">
+            <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+            {{ field }}
+            {% if field.errors %}
+                <div class="field-errors">
+                    {% for error in field.errors %}
+                        <span class="error">{{ error }}</span>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        </div>
+        {% endfor %}
+
+        {% if form.non_field_errors %}
+            <div class="field-errors">
+                {% for error in form.non_field_errors %}
+                    <span class="error">{{ error }}</span>
+                {% endfor %}
+            </div>
+        {% endif %}
+
+        <div class="form-actions">
+            <button type="submit" class="btn-submit">Login</button>
+        </div>
+    </form>
+
+    <p class="form-footer">Don't have an account? <a href="{% url 'accounts:register' %}">Register</a></p>
+</div>
+{% endblock %}

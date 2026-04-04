@@ -1,3 +1,4 @@
+from django.contrib.auth.mixins import PermissionRequiredMixin
 from django.urls import reverse, reverse_lazy
 from django.views.generic import ListView, UpdateView, CreateView, DetailView, DeleteView
 
@@ -23,12 +24,14 @@ class TournamentDetailView(DetailView):
     template_name = 'tournaments/tournament-details.html'
 
 
-class TournamentAddView(TournamentBaseViewMixin, CreateView):
+class TournamentAddView(PermissionRequiredMixin, TournamentBaseViewMixin, CreateView):
+    permission_required = 'tournaments.add_tournament'
     form_class = TournamentAddForm
     template_name = 'tournaments/tournament-add.html'
 
 
-class TournamentEditView(UpdateView):
+class TournamentEditView(PermissionRequiredMixin, UpdateView):
+    permission_required = 'tournaments.change_tournament'
     model = Tournament
     form_class = TournamentEditForm
     template_name = 'tournaments/tournament-edit.html'
@@ -42,7 +45,8 @@ class TournamentEditView(UpdateView):
         )
 
 
-class TournamentDeleteView(TournamentBaseViewMixin, DeleteView):
+class TournamentDeleteView(PermissionRequiredMixin, TournamentBaseViewMixin, DeleteView):
+    permission_required = 'tournaments.delete_tournament'
     form_class = TournamentDeleteForm
     template_name = 'tournaments/tournament-delete.html'
 

@@ -7,9 +7,11 @@
 <div class="dashboard-container">
     <div class="dashboard-header">
         <h1>Tournaments Directory</h1>
+        {% if perms.tournaments.add_tournament %}
         <a href="{% url 'tournaments:add' %}" class="btn-add">
             <span>+</span> Add New Tournament
         </a>
+        {% endif %}
     </div>
 
     <div class="clubs-grid">
@@ -42,8 +44,12 @@
                 </ul>
 
                 <div class="club-actions">
+                    {% if perms.tournaments.change_tournament %}
                     <a href="{% url 'tournaments:edit' pk=tournament.pk %}" class="btn-action btn-edit">Edit</a>
+                    {% endif %}
+                    {% if perms.tournaments.delete_tournament %}
                     <a href="{% url 'tournaments:delete' pk=tournament.pk %}" class="btn-action btn-delete">Delete</a>
+                    {% endif %}
                 </div>
             </div>
         </div>
@@ -52,7 +58,7 @@
             <h3>No tournaments found</h3>
             <p>Get started by adding the first karate tournament to the federation.</p>
             <br>
-            <a href="{% url 'tournaments:add' %}" class="btn-add">Add Tournament</a>
+            {% if perms.tournaments.add_tournament %}<a href="{% url 'tournaments:add' %}" class="btn-add">Add Tournament</a>{% endif %}
         </div>
         {% endfor %}
     </div>

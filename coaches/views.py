@@ -1,3 +1,4 @@
+from django.contrib.auth.mixins import PermissionRequiredMixin
 from django.urls import reverse_lazy, reverse
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 
@@ -23,12 +24,14 @@ class CoachDetailView(DetailView):
     template_name = 'coaches/coach-details.html'
 
 
-class CoachAddView(CoachBaseViewMixin, CreateView):
+class CoachAddView(PermissionRequiredMixin, CoachBaseViewMixin, CreateView):
+    permission_required = 'coaches.add_coach'
     form_class = CoachAddForm
     template_name = 'coaches/coach-add.html'
 
 
-class CoachEditView(UpdateView):
+class CoachEditView(PermissionRequiredMixin, UpdateView):
+    permission_required = 'coaches.change_coach'
     model = Coach
     form_class = CoachEditForm
     template_name = 'coaches/coach-edit.html'
@@ -42,7 +45,8 @@ class CoachEditView(UpdateView):
         )
 
 
-class CoachDeleteView(CoachBaseViewMixin, DeleteView):
+class CoachDeleteView(PermissionRequiredMixin, CoachBaseViewMixin, DeleteView):
+    permission_required = 'coaches.delete_coach'
     form_class = CoachDeleteForm
     template_name = 'coaches/coach-delete.html'
 

@@ -26,14 +26,14 @@ class Club(CommonInfoMixin):
     country = models.CharField(
         max_length=50,
         validators=[
-            OnlyLetterValidator(message="the country must include only letters!")
+            OnlyLetterValidator(message="The country must include only letters!")
         ]
     )
 
     city = models.CharField(
         max_length=50,
         validators=[
-            OnlyLetterValidator(message="the city must include only letters!")
+            OnlyLetterValidator(message="The city must include only letters!")
         ]
     )
 
