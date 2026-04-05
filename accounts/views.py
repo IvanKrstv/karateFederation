@@ -5,6 +5,7 @@ from django.urls import reverse_lazy
 from django.views.generic import CreateView
 
 from accounts.forms import RegisterForm, LoginForm
+from accounts.tasks import send_welcome_email
 
 
 class RegisterView(CreateView):
@@ -16,6 +17,12 @@ class RegisterView(CreateView):
         if request.user.is_authenticated:
             return redirect('common:home')
         return super().dispatch(request, *args, **kwargs)
+
+    def form_valid(self, form):
+        response = super().form_valid(form)
+        user = self.object
+        send_welcome_email.delay(user.username, user.email)
+        return response
 
 
 class UserLoginView(LoginView):
